@@ -1,5 +1,9 @@
+// Grupo de 3 conformado por:
+// María Alejandra Carrillo: 202321854
+// Juan David Uribe: 202322433
+// Raúl Sebastián Ruiz: 202321332
+
 public class Proyecto1 {
-    // Proyecto 1 DALGO
 
     public int Proyecto1Principal(int n, int j, int m, int[] pesos) {
 
