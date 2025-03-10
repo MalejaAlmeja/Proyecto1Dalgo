@@ -3,40 +3,43 @@
 # Juan David Uribe: 202322433
 # Raúl Sebastián Ruiz: 202321332
 
-def find_minimum_weight_sum_dp(weights, group_size, max_swaps):
-    n = len(weights)
+def algormar_dp(pesos, n, j, m):
     INF = float('inf')
-
+    
     # Initialize 3D DP table: dp[i][k][s]
-    # i = players considered
-    # k = players selected
-    # s = total swaps used
-    dp = [[[INF] * (max_swaps + 1) for _ in range(group_size + 1)] for _ in range(n + 1)]
-    dp[0][0][0] = 0  # base case: 0 players, 0 selected, 0 swaps
+    # i = jugadores considerados
+    # k = jugadores seleccionados
+    # s = swaps usados
+    
+    dp = [[[INF] * (m + 1) for _ in range(j + 1)] for _ in range(n + 1)]
+    
+    # Caso base: 0 jugadores, 0 seleccionados, 0 swaps
+    dp[0][0][0] = 0
 
-    for i in range(n):  # for each player
-        for selected in range(group_size + 1):
-            for swaps in range(max_swaps + 1):
-                if dp[i][selected][swaps] == INF:
+    for i in range(n):  # Para cada jugador
+        for seleccionado in range(j + 1):
+            for swaps in range(m + 1):
+                if dp[i][seleccionado][swaps] == INF:
                     continue
 
-                # Option 1: skip this player
-                dp[i + 1][selected][swaps] = min(dp[i + 1][selected][swaps], dp[i][selected][swaps])
+                # Opción 1: No incluir jugador actual
+                dp[i + 1][seleccionado][swaps] = min(dp[i + 1][seleccionado][swaps], dp[i][seleccionado][swaps])
 
-                # Option 2: select this player (if room in group)
-                if selected < group_size:
-                    cost_to_move = i - selected
-                    new_swap_total = swaps + cost_to_move
-                    if new_swap_total <= max_swaps:
-                        dp[i + 1][selected + 1][new_swap_total] = min(
-                            dp[i + 1][selected + 1][new_swap_total],
-                            dp[i][selected][swaps] + weights[i]
+                # Opción 2: Seleccionar este jugador (si hay espacio en el grupo)
+                if seleccionado < j:
+                    costo_mover = i - seleccionado
+                    nuevo_swap_total = swaps + costo_mover
+                    if nuevo_swap_total <= m:
+                        dp[i + 1][seleccionado + 1][nuevo_swap_total] = min(
+                            dp[i + 1][seleccionado + 1][nuevo_swap_total],
+                            dp[i][seleccionado][swaps] + pesos[i]
                         )
 
-    # Get minimum result for selecting `group_size` players using any swaps ≤ max_swaps
-    return min(dp[n][group_size][s] for s in range(max_swaps + 1))
+    # Caso final: Obtener el mínimo resultado para seleccionar `j` jugadores usando cualquier swap ≤ m
+    return min(dp[n][j][s] for s in range(m + 1))
 
-test_cases = [
+# Casos de estudio
+casos_estudio = [
     [5, 2, 3, 3, 1, 4, 2, 5],
     [8, 3, 6, 57, 43, 31, 21, 13, 1, 7, 3],
     [13, 7, 20, 57, 27, 13, 91, 73, 1, 13, 1, 43, 21, 31, 3, 7],
@@ -44,10 +47,10 @@ test_cases = [
     [23, 11, 19, 127, 103, 1, 23, 81, 43, 61, 153, 181, 47, 7, 3, 27, 91, 43, 57, 21, 1, 73, 13, 13, 1, 31]
 ]
 
-for idx, case in enumerate(test_cases, 1):
-    n = case[0]
-    j = case[1]
-    m = case[2]
-    weights = case[3:]
-    result = find_minimum_weight_sum_dp(weights, j, m)
-    print(f"Case #{idx}: Minimum total weight of first {j} players = {result}")
+for indice, caso in enumerate(casos_estudio, 1):
+    n = caso[0]
+    j = caso[1]
+    m = caso[2]
+    pesos = caso[3:]
+    resultado = algormar_dp(pesos, n, j, m)
+    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")

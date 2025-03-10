@@ -3,34 +3,33 @@
 # Juan David Uribe: 202322433
 # Raúl Sebastián Ruiz: 202321332
 
-def calculate_swap_cost(indices):
-    cost = 0
-    positions = sorted(indices)  # where the elements currently are
-    for i in range(len(positions)):
-        cost += positions[i] - i  # how many elements need to be passed over
-    return cost
+def calcular_costo_swap(indices):
+    costo = 0
+    posiciones = sorted(indices)  # donde estan actualmente los elementos
+    for i in range(len(posiciones)):
+        costo += posiciones[i] - i # cuandos elementos necesitan ser pasados
+    return costo
 
-
-def dfs(weights, n, j, m, start, path, min_weight):
-    if len(path) == j:
-        # We have a full subsequence of length j, evaluate it
-        swap_cost = calculate_swap_cost(path)
-        if swap_cost <= m:
-            total_weight = sum(weights[i] for i in path)
-            min_weight[0] = min(min_weight[0], total_weight)
+def dfs(pesos, n, j, m, inicio, camino, min_peso):
+    if len(camino) == j:
+        # Tenemos la subsecuencia de longitud j, la evaluamos
+        costo_swap = calcular_costo_swap(camino)
+        if costo_swap <= m:
+            peso_total = sum(pesos[i] for i in camino)
+            min_peso[0] = min(min_peso[0], peso_total)
         return
-    
-    for i in range(start, n):
-        dfs(weights, n, j, m, i + 1, path + [i], min_weight)
+    for i in range(inicio, n):
+        dfs(pesos, n, j, m, i + 1, camino + [i], min_peso)
 
 
-def find_min_total_weight(weights, j, m):
-    n = len(weights)
-    min_weight = [float('inf')]
-    dfs(weights, n, j, m, 0, [], min_weight)
-    return min_weight[0]
+def algormar_recursivo(pesos, j, m):
+    n = len(pesos)
+    min_peso = [float('inf')]
+    dfs(pesos, n, j, m, 0, [], min_peso)
+    return min_peso[0]
 
-test_cases = [
+# Casos de estudio
+casos_estudio = [
     [5, 2, 3, 3, 1, 4, 2, 5],
     [8, 3, 6, 57, 43, 31, 21, 13, 1, 7, 3],
     [13, 7, 20, 57, 27, 13, 91, 73, 1, 13, 1, 43, 21, 31, 3, 7],
@@ -38,10 +37,10 @@ test_cases = [
     [23, 11, 19, 127, 103, 1, 23, 81, 43, 61, 153, 181, 47, 7, 3, 27, 91, 43, 57, 21, 1, 73, 13, 13, 1, 31]
 ]
 
-for idx, case in enumerate(test_cases, 1):
-    n = case[0]
-    j = case[1]
-    m = case[2]
-    weights = case[3:]
-    result = find_min_total_weight(weights, j, m)
-    print(f"Case #{idx}: Minimum total weight of first {j} players = {result}")
+for indice, caso in enumerate(casos_estudio, 1):
+    n = caso[0]
+    j = caso[1]
+    m = caso[2]
+    pesos = caso[3:]
+    resultado = algormar_recursivo(pesos, j, m)
+    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")

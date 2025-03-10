@@ -3,42 +3,41 @@
 # Juan David Uribe: 202322433
 # Raúl Sebastián Ruiz: 202321332
 
-def find_minimum_weight_sum_memo(weights, group_size, max_swaps):
-    total_players = len(weights)
-    memo = {}
+def algormar_memorizacion(pesos, n, j, m):
+    memoria = {}
 
-    def dp(current_index, selected_count, swap_cost):
-        # Check if result already memoized
-        key = (current_index, selected_count, swap_cost)
-        if key in memo:
-            return memo[key]
+    def dp(indice_actual, cuenta_seleccionada, costo_swap):
+        # Revisa si el resultado ha sido memorizado
+        llave = (indice_actual, cuenta_seleccionada, costo_swap)
+        if llave in memoria:
+            return memoria[llave]
 
-        # Base Case: selected enough players
-        if selected_count == group_size:
-            return 0  # no more weight to add
+        # Caso base: Se seleccionan suficientes jugadores
+        if cuenta_seleccionada == j:
+            return 0  # No hay que agregar peso
 
-        # Base Case: ran out of players
-        if current_index >= total_players:
+        # Caso base: Nos quedamos sin jugadores
+        if indice_actual >= n:
             return float('inf')
 
-        # Option 1: Skip current player
-        option_skip = dp(current_index + 1, selected_count, swap_cost)
+        # Opción 1: No incluir jugador actual
+        skip = dp(indice_actual + 1, cuenta_seleccionada, costo_swap)
 
-        # Option 2: Include current player
-        cost_to_move = current_index - selected_count
-        option_take = float('inf')
-        if swap_cost + cost_to_move <= max_swaps:
-            option_take = weights[current_index] + dp(current_index + 1, selected_count + 1, swap_cost + cost_to_move)
+        # Optción 2: Incluir jugador actual
+        costo_mover = indice_actual - cuenta_seleccionada
+        tomar = float('inf')
+        if costo_swap + costo_mover <= m:
+            tomar = pesos[indice_actual] + dp(indice_actual + 1, cuenta_seleccionada + 1, costo_swap + costo_mover)
 
-        # Store the result in memo table
-        memo[key] = min(option_skip, option_take)
-        return memo[key]
+        # Guarda el resultado en la memoria
+        memoria[llave] = min(skip, tomar)
+        return memoria[llave]
 
     return dp(0, 0, 0)
 
 
-# Test cases
-test_cases = [
+# Casos de estudio
+casos_estudio = [
     [5, 2, 3, 3, 1, 4, 2, 5],
     [8, 3, 6, 57, 43, 31, 21, 13, 1, 7, 3],
     [13, 7, 20, 57, 27, 13, 91, 73, 1, 13, 1, 43, 21, 31, 3, 7],
@@ -46,10 +45,10 @@ test_cases = [
     [23, 11, 19, 127, 103, 1, 23, 81, 43, 61, 153, 181, 47, 7, 3, 27, 91, 43, 57, 21, 1, 73, 13, 13, 1, 31]
 ]
 
-for idx, case in enumerate(test_cases, 1):
-    n = case[0]
-    j = case[1]
-    m = case[2]
-    weights = case[3:]
-    result = find_minimum_weight_sum_memo(weights, j, m)
-    print(f"Case #{idx}: Minimum total weight of first {j} players = {result}")
+for indice, caso in enumerate(casos_estudio, 1):
+    n = caso[0]
+    j = caso[1]
+    m = caso[2]
+    pesos = caso[3:]
+    resultado = algormar_memorizacion(pesos, n, j, m)
+    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")
