@@ -7,15 +7,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Proyecto1 {
 
-    public int Proyecto1Principal(int n, int j, int m, int[] pesos) {
-        int valor_min = 9999999;
+    public float Proyecto1Principal(int n, int j, int m, int[] pesos) {
+        float valor_min = Float.POSITIVE_INFINITY;
 
         for (List<Integer> caso: generarCombinaciones(pesos, j)){
-            if (posible(caso, pesos, m)){
+            if (posible(caso, pesos, n,j,m)){
                 int sum = 0;
                 for(int numero: caso){
                     sum += numero;
@@ -27,7 +28,7 @@ public class Proyecto1 {
         }
         return valor_min;
     }
-
+/*
     public boolean posible(List<Integer> caso, int[] pesos, int m) {
         for (int i = 0; i < caso.size(); i++){
             int movimientos_necesarios;
@@ -39,8 +40,10 @@ public class Proyecto1 {
                     break;
                 }
             }
-            movimientos_necesarios = i_original - i;
-            m -= movimientos_necesarios;
+            //if (i_original > caso.size()-1){
+        
+                movimientos_necesarios = i_original - i;
+                m -= movimientos_necesarios;
             if (m<0){
                 return false;
             }
@@ -51,6 +54,36 @@ public class Proyecto1 {
             return false;
         }
     }
+*/
+public boolean posible(List<Integer> caso, int[] pesos,int n, int j, int m) {
+        int[] copia = Arrays.copyOf(pesos, n);
+        int swaps = 0;
+
+        for (int i = 0; i < j; i++) {
+            int indice_original = -1;
+            for (int k = i; k < n; k++) {
+                if (copia[k] == caso.get(i)) {
+                    indice_original = k;
+                    break;
+                }
+            }
+
+            while (indice_original > i) {
+                int tmp = copia[indice_original];
+                copia[indice_original] = copia[indice_original - 1];
+                copia[indice_original - 1] = tmp;
+                indice_original--;
+                swaps++;
+            }
+        }
+
+        if (swaps <= m && swaps>0) {
+            return true;
+        }
+        else{
+            return false;
+        }
+}
 
     public static List<List<Integer>> generarCombinaciones(int[] arr, int j) {
         List<List<Integer>> resultado = new ArrayList<>();
@@ -60,14 +93,14 @@ public class Proyecto1 {
 
     private static void combinar(int[] arr, int j, int inicio, List<Integer> actual, List<List<Integer>> resultado) {
         if (actual.size() == j) {
-            resultado.add(new ArrayList<>(actual)); // Agregar la combinación encontrada
+            resultado.add(new ArrayList<>(actual));
             return;
         }
 
         for (int i = inicio; i < arr.length; i++) {
-            actual.add(arr[i]); // Agregar el elemento actual
-            combinar(arr, j, i + 1, actual, resultado); // Llamado recursivo
-            actual.remove(actual.size() - 1); // Eliminar el último para probar la siguiente opción
+            actual.add(arr[i]);
+            combinar(arr, j, i + 1, actual, resultado);
+            actual.remove(actual.size() - 1); 
         }
     }
 
@@ -99,9 +132,9 @@ public class Proyecto1 {
                     pesos[k] = Integer.parseInt(parts[3 + k]);
                 }
                 
-                int resultado = instancia.Proyecto1Principal(n, j, m, pesos);
+                float resultado = instancia.Proyecto1Principal(n, j, m, pesos);
                 
-                System.out.println(resultado);
+                System.out.println(((int)resultado));
             }
         }
     }
