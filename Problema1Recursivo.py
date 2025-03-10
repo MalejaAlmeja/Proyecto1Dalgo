@@ -1,3 +1,8 @@
+## Grupo de 3 conformado por:
+# María Alejandra Carrillo: 202321854
+# Juan David Uribe: 202322433
+# Raúl Sebastián Ruiz: 202321332
+
 def calculate_swap_cost(indices):
     cost = 0
     positions = sorted(indices)  # where the elements currently are
