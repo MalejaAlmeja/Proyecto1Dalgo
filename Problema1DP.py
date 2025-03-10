@@ -2,11 +2,11 @@
 # María Alejandra Carrillo: 202321854
 # Juan David Uribe: 202322433
 # Raúl Sebastián Ruiz: 202321332
-
+import sys
 def algormar_dp(pesos, n, j, m):
     INF = float('inf')
     
-    # Initialize 3D DP table: dp[i][k][s]
+    # Inicializar tabla 3D DP: dp[i][k][s]
     # i = jugadores considerados
     # k = jugadores seleccionados
     # s = swaps usados
@@ -38,7 +38,8 @@ def algormar_dp(pesos, n, j, m):
     # Caso final: Obtener el mínimo resultado para seleccionar `j` jugadores usando cualquier swap ≤ m
     return min(dp[n][j][s] for s in range(m + 1))
 
-# Casos de estudio
+
+"""# Casos de estudio
 casos_estudio = [
     [5, 2, 3, 3, 1, 4, 2, 5],
     [8, 3, 6, 57, 43, 31, 21, 13, 1, 7, 3],
@@ -53,4 +54,20 @@ for indice, caso in enumerate(casos_estudio, 1):
     m = caso[2]
     pesos = caso[3:]
     resultado = algormar_dp(pesos, n, j, m)
-    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")
+    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")"
+    """
+
+def main():
+    linea = sys.stdin.readline()
+    ncasos = int(linea)
+    linea = sys.stdin.readline()
+    for i in range(0,ncasos):
+        numeros = [int(num) for num in linea.split()]
+        n = numeros[0]
+        j = numeros[1]
+        m = numeros[2]
+        pesos = numeros[3:]
+        print(algormar_dp(pesos, n, j, m))
+        linea = sys.stdin.readline()
+    
+main()

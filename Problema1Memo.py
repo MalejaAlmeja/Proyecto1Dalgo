@@ -2,7 +2,7 @@
 # María Alejandra Carrillo: 202321854
 # Juan David Uribe: 202322433
 # Raúl Sebastián Ruiz: 202321332
-
+import sys
 def algormar_memorizacion(pesos, n, j, m):
     memoria = {}
 
@@ -35,7 +35,7 @@ def algormar_memorizacion(pesos, n, j, m):
 
     return dp(0, 0, 0)
 
-
+""""
 # Casos de estudio
 casos_estudio = [
     [5, 2, 3, 3, 1, 4, 2, 5],
@@ -52,3 +52,19 @@ for indice, caso in enumerate(casos_estudio, 1):
     pesos = caso[3:]
     resultado = algormar_memorizacion(pesos, n, j, m)
     print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")
+"""
+
+def main():
+    linea = sys.stdin.readline()
+    ncasos = int(linea)
+    linea = sys.stdin.readline()
+    for i in range(0,ncasos):
+        numeros = [int(num) for num in linea.split()]
+        n = numeros[0]
+        j = numeros[1]
+        m = numeros[2]
+        pesos = numeros[3:]
+        print(algormar_memorizacion(pesos, n, j, m))
+        linea = sys.stdin.readline()
+    
+main()

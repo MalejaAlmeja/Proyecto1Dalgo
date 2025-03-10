@@ -2,15 +2,14 @@
 # María Alejandra Carrillo: 202321854
 # Juan David Uribe: 202322433
 # Raúl Sebastián Ruiz: 202321332
-
+import sys
 def calcular_costo_swap(indices):
     costo = 0
-    posiciones = sorted(indices)  # donde estan actualmente los elementos
-    for i in range(len(posiciones)):
-        costo += posiciones[i] - i # cuandos elementos necesitan ser pasados
+    for i in range(len(indices)):
+        costo += indices[i] - i # cuandos elementos necesitan ser pasados
     return costo
 
-def dfs(pesos, n, j, m, inicio, camino, min_peso):
+def combinaciones(pesos, n, j, m, inicio, camino, min_peso):
     if len(camino) == j:
         # Tenemos la subsecuencia de longitud j, la evaluamos
         costo_swap = calcular_costo_swap(camino)
@@ -19,15 +18,15 @@ def dfs(pesos, n, j, m, inicio, camino, min_peso):
             min_peso[0] = min(min_peso[0], peso_total)
         return
     for i in range(inicio, n):
-        dfs(pesos, n, j, m, i + 1, camino + [i], min_peso)
+        combinaciones(pesos, n, j, m, i + 1, camino + [i], min_peso)
 
 
-def algormar_recursivo(pesos, j, m):
-    n = len(pesos)
+def algormar_recursivo(pesos, n, j, m):
     min_peso = [float('inf')]
-    dfs(pesos, n, j, m, 0, [], min_peso)
+    combinaciones(pesos, n, j, m, 0, [], min_peso)
     return min_peso[0]
 
+"""
 # Casos de estudio
 casos_estudio = [
     [5, 2, 3, 3, 1, 4, 2, 5],
@@ -42,5 +41,21 @@ for indice, caso in enumerate(casos_estudio, 1):
     j = caso[1]
     m = caso[2]
     pesos = caso[3:]
-    resultado = algormar_recursivo(pesos, j, m)
+    resultado = algormar_recursivo(pesos,n, j, m)
     print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")
+"""
+
+def main():
+    linea = sys.stdin.readline()
+    ncasos = int(linea)
+    linea = sys.stdin.readline()
+    for i in range(0,ncasos):
+        numeros = [int(num) for num in linea.split()]
+        n = numeros[0]
+        j = numeros[1]
+        m = numeros[2]
+        pesos = numeros[3:]
+        print(algormar_recursivo(pesos, n, j, m))
+        linea = sys.stdin.readline()
+    
+main()
