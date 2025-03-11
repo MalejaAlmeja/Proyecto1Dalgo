@@ -3,6 +3,7 @@
 # Juan David Uribe: 202322433
 # Raúl Sebastián Ruiz: 202321332
 import sys
+import time
 def algormar_dp(pesos, n, j, m):
     INF = float('inf')
     
@@ -39,7 +40,7 @@ def algormar_dp(pesos, n, j, m):
     return min(dp[n][j][s] for s in range(m + 1))
 
 
-"""# Casos de estudio
+# Casos de estudio
 casos_estudio = [
     [5, 2, 3, 3, 1, 4, 2, 5],
     [8, 3, 6, 57, 43, 31, 21, 13, 1, 7, 3],
@@ -53,10 +54,13 @@ for indice, caso in enumerate(casos_estudio, 1):
     j = caso[1]
     m = caso[2]
     pesos = caso[3:]
+    start = time.time()
     resultado = algormar_dp(pesos, n, j, m)
-    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")"
-    """
-
+    end = time.time()
+    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")
+    print("Tiempo de ejecución: ",end - start)
+    
+"""
 def main():
     linea = sys.stdin.readline()
     ncasos = int(linea)
@@ -71,3 +75,4 @@ def main():
         linea = sys.stdin.readline()
     
 main()
+"""
