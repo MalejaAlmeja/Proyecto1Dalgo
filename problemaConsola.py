@@ -3,39 +3,36 @@ import sys
 # Programa para calcular el peso mínimo total de jugadores seleccionados
 # bajo la restricción de cantidad máxima de intercambios (swaps)
 
+## ESTE ES EL INTENTO DE 2D DE CHAT
+
 def algormar_dp(pesos, n, j, m):
     INF = float('inf')
+    dp = [[INF] * (m + 1) for _ in range(j + 1)]
+    dp[0][0] = 0
 
-    # Inicializar la tabla DP 3D: dp[i][k][s]
-    # i = jugadores considerados
-    # k = jugadores seleccionados
-    # s = swaps usados
-    dp = [[[INF] * (m + 1) for _ in range(j + 1)] for _ in range(n + 1)]
+    for i in range(n):
+        peso_actual = pesos[i]
+        # Hacemos copia del dp para esta ronda
+        dp_ant = [fila[:] for fila in dp]
 
-    # Caso base: 0 jugadores, 0 seleccionados, 0 swaps
-    dp[0][0][0] = 0
-
-    for i in range(n):  # Para cada jugador
-        for seleccionado in range(j + 1):
+        for seleccionados in range(j + 1):
             for swaps in range(m + 1):
-                if dp[i][seleccionado][swaps] == INF:
+                if dp_ant[seleccionados][swaps] == INF:
                     continue
+                # Opción 1: no seleccionar al jugador i (no cambia nada)
+                dp[seleccionados][swaps] = min(dp[seleccionados][swaps], dp_ant[seleccionados][swaps])
 
-                # Opción 1: No incluir jugador actual
-                dp[i + 1][seleccionado][swaps] = min(dp[i + 1][seleccionado][swaps], dp[i][seleccionado][swaps])
-
-                # Opción 2: Seleccionar este jugador (si hay espacio en el grupo)
-                if seleccionado < j:
-                    costo_mover = i - seleccionado
-                    nuevo_swap_total = swaps + costo_mover
-                    if nuevo_swap_total <= m:
-                        dp[i + 1][seleccionado + 1][nuevo_swap_total] = min(
-                            dp[i + 1][seleccionado + 1][nuevo_swap_total],
-                            dp[i][seleccionado][swaps] + pesos[i]
+                # Opción 2: seleccionarlo (si no superamos j ni m)
+                if seleccionados < j:
+                    costo_mover = i - seleccionados
+                    total_swaps = swaps + costo_mover
+                    if total_swaps <= m:
+                        dp[seleccionados + 1][total_swaps] = min(
+                            dp[seleccionados + 1][total_swaps],
+                            dp_ant[seleccionados][swaps] + peso_actual
                         )
 
-    # Resultado final: mínimo peso total posible usando swaps ≤ m
-    return min(dp[n][j][s] for s in range(m + 1))
+    return min(dp[j][s] for s in range(m + 1) if dp[j][s] != INF)
 
 
 def main():
