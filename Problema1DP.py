@@ -40,27 +40,26 @@ def algormar_dp(pesos, n, j, m):
     return min(dp[n][j][s] for s in range(m + 1))
 
 
-# Casos de estudio
-casos_estudio = [
-    [5, 2, 3, 3, 1, 4, 2, 5],
-    [8, 3, 6, 57, 43, 31, 21, 13, 1, 7, 3],
-    [13, 7, 20, 57, 27, 13, 91, 73, 1, 13, 1, 43, 21, 31, 3, 7],
-    [17, 2, 2, 43, 81, 103, 13, 27, 61, 43, 31, 21, 13, 1, 7, 1, 3, 91, 73, 57],
-    [23, 11, 19, 127, 103, 1, 23, 81, 43, 61, 153, 181, 47, 7, 3, 27, 91, 43, 57, 21, 1, 73, 13, 13, 1, 31]
-]
+# # Casos de estudio
+# casos_estudio = [
+#     [5, 2, 3, 3, 1, 4, 2, 5],
+#     [8, 3, 6, 57, 43, 31, 21, 13, 1, 7, 3],
+#     [13, 7, 20, 57, 27, 13, 91, 73, 1, 13, 1, 43, 21, 31, 3, 7],
+#     [17, 2, 2, 43, 81, 103, 13, 27, 61, 43, 31, 21, 13, 1, 7, 1, 3, 91, 73, 57],
+#     [23, 11, 19, 127, 103, 1, 23, 81, 43, 61, 153, 181, 47, 7, 3, 27, 91, 43, 57, 21, 1, 73, 13, 13, 1, 31]
+# ]
 
-for indice, caso in enumerate(casos_estudio, 1):
-    n = caso[0]
-    j = caso[1]
-    m = caso[2]
-    pesos = caso[3:]
-    start = time.time()
-    resultado = algormar_dp(pesos, n, j, m)
-    end = time.time()
-    print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")
-    print("Tiempo de ejecución: ",end - start)
+# for indice, caso in enumerate(casos_estudio, 1):
+#     n = caso[0]
+#     j = caso[1]
+#     m = caso[2]
+#     pesos = caso[3:]
+#     start = time.time()
+#     resultado = algormar_dp(pesos, n, j, m)
+#     end = time.time()
+#     print(f"Caso #{indice}: Peso minimo total de los primeros {j} jugadores = {resultado}")
+#     print("Tiempo de ejecución: ",end - start)
     
-"""
 def main():
     linea = sys.stdin.readline()
     ncasos = int(linea)
@@ -73,6 +72,4 @@ def main():
         pesos = numeros[3:]
         print(algormar_dp(pesos, n, j, m))
         linea = sys.stdin.readline()
-    
 main()
-"""
