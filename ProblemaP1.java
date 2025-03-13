@@ -1,19 +1,22 @@
+// Grupo de 3 conformado por:
+// María Alejandra Carrillo: 202321854
+// Juan David Uribe: 202322433
+// Raúl Sebastián Ruiz: 202321332
 import java.util.*;
 
-public class JavaConsola {
+public class ProblemaP1 {
 
     public static int algormarDP(int[] pesos, int n, int j, int m) {
-        int INF = Integer.MAX_VALUE / 2; // Evitar overflow al sumar
-
+        // Evitar overflow al sumar
+        int INF = Integer.MAX_VALUE / 3; 
         int[][][] dp = new int[n + 1][j + 1][m + 1];
-
         // Inicializar el DP con infinito
+
         for (int i = 0; i <= n; i++) {
             for (int k = 0; k <= j; k++) {
                 Arrays.fill(dp[i][k], INF);
             }
         }
-
         // Caso base
         dp[0][0][0] = 0;
 
@@ -39,7 +42,6 @@ public class JavaConsola {
                 }
             }
         }
-
         int resultado = INF;
         for (int s = 0; s <= m; s++) {
             resultado = Math.min(resultado, dp[n][j][s]);
@@ -66,7 +68,6 @@ public class JavaConsola {
             int resultado = algormarDP(pesos, n, j, m);
             System.out.println(resultado);
         }
-
         sc.close();
     }
 } 
